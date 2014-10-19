@@ -36,8 +36,10 @@ public class MainActivity extends ActionBarActivity {
         mNavigationDrawerFragment = (NavigationDrawerFragment)
             getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
+        //initialize Toolbar
         getActionBarToolbar();
 
+        //Toolbar title seems to get reset to the App Name if set on this (onCreate) method. Have to use Handler for setTitle to work.
         Handler mHandler = new Handler();
         mHandler.post(new Runnable() {
             @Override
