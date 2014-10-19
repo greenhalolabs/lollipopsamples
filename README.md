@@ -1,4 +1,8 @@
-Toolbar with Navigation Drawer using AppCompat 7.
+## Toolbar with Navigation Drawer using AppCompat 7.
+
+#### Rotating Arrow to Up Drawable Transition from
+
+https://github.com/ChrisRenke/DrawerArrowDrawable
 
 ===============
 
@@ -8,8 +12,6 @@ Toolbar with Navigation Drawer using AppCompat 7.
 
 
 
-Rotating Arrow to Up Drawable Transition courtesy of:
 
-https://github.com/ChrisRenke/DrawerArrowDrawable
 
 
