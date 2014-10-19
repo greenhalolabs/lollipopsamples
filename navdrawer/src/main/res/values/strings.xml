@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">LollipopSamples</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Lollipop Samples</string>
     <string name="toolbar_title">Toolbar with Navigation Drawer</string>
 
 </resources>
