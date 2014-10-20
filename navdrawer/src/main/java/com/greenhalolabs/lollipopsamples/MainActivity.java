@@ -36,15 +36,6 @@ public class MainActivity extends ActionBarActivity {
         //initialize Toolbar
         getActionBarToolbar();
 
-        //Toolbar title seems to get reset to the App Name if set on this (onCreate) method. Have to use Handler for setTitle to work.
-        Handler mHandler = new Handler();
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getActionBarToolbar().setTitle(toolbarTitle);
-            }
-        });
-
         mActionBarToolbar.setTitleTextAppearance(getApplicationContext(), R.style.ToolbarTitle);
 
         setupNavDrawer();
@@ -117,6 +108,8 @@ public class MainActivity extends ActionBarActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+        
+        getActionBarToolbar().setTitle(toolbarTitle);
     }
 
     @Override
