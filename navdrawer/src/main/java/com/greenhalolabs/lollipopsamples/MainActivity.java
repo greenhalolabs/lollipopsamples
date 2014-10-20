@@ -1,24 +1,24 @@
 package com.greenhalolabs.lollipopsamples;
 
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
-    private NavigationDrawerFragment mNavigationDrawerFragment;
     Toolbar mActionBarToolbar;
-    DrawerArrowDrawable drawerArrowDrawable;
-    private float offset;
-    private boolean flipped;
     String appName;
     String toolbarTitle;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +32,6 @@ public class MainActivity extends ActionBarActivity {
         toolbarTitle = resources.getString(R.string.toolbar_title);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-            getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         //initialize Toolbar
         getActionBarToolbar();
@@ -72,65 +69,59 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color
-                                                                              .theme_primary_dark));
+                .theme_primary_dark));
 
         if (mActionBarToolbar != null) {
-
-            final Resources resources = getResources();
-
-            drawerArrowDrawable = new DrawerArrowDrawable(resources);
-            drawerArrowDrawable.setStrokeColor(resources.getColor(R.color.light_gray));
-
-            mActionBarToolbar.setNavigationIcon(drawerArrowDrawable);
             mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
                         mDrawerLayout.closeDrawer(Gravity.START);
-                    }
-                    else {
+                    } else {
                         mDrawerLayout.openDrawer(Gravity.START);
                     }
                 }
             });
         }
 
-        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                getActionBarToolbar().setTitle(toolbarTitle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                supportInvalidateOptionsMenu();
             }
 
-            @Override
+            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
-                getActionBarToolbar().setTitle(appName);
+                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
+        };
 
-            @Override
-            public void onDrawerStateChanged(int newState) {
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                offset = slideOffset;
-
-                // Sometimes slideOffset ends up so close to but not quite 1 or 0.
-                if (slideOffset >= .995) {
-                    flipped = true;
-                    drawerArrowDrawable.setFlip(flipped);
-                } else if (slideOffset <= .005) {
-                    flipped = false;
-                    drawerArrowDrawable.setFlip(flipped);
-                }
-
-                drawerArrowDrawable.setParameter(offset);
-            }
-        });
-
-
-
+        // Set the drawer toggle as the DrawerListener
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 }
