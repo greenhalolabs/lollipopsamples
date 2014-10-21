@@ -3,7 +3,6 @@ package com.greenhalolabs.lollipopsamples;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,14 +35,10 @@ public class MainActivity extends ActionBarActivity {
         //initialize Toolbar
         getActionBarToolbar();
 
-        //Toolbar title seems to get reset to the App Name if set on this (onCreate) method. Have to use Handler for setTitle to work.
-        Handler mHandler = new Handler();
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                getActionBarToolbar().setTitle(toolbarTitle);
-            }
-        });
+        //once the toolbar has been set as the action bar (see setSupportActionBar in
+        // getActionBarToolbar() method), use getSupportActionBar to work with the toolbar
+        // e.g setTitle, setDisplayShowTitleEnabled
+        getSupportActionBar().setTitle(toolbarTitle);
 
         mActionBarToolbar.setTitleTextAppearance(getApplicationContext(), R.style.ToolbarTitle);
 
@@ -69,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mDrawerLayout.setStatusBarBackgroundColor(getResources().getColor(R.color
-                .theme_primary_dark));
+                                                                              .theme_primary_dark));
 
         if (mActionBarToolbar != null) {
             mActionBarToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -85,7 +80,10 @@ public class MainActivity extends ActionBarActivity {
             });
         }
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this,
+                                                  mDrawerLayout,
+                                                  R.string.drawer_open,
+                                                  R.string.drawer_close) {
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
